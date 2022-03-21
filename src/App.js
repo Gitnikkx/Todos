@@ -1,25 +1,57 @@
-import logo from './logo.svg';
-import './App.css';
+import { React, Component } from "react";
+import "./App.css";
+import axios from "axios";
+import { Loading } from "./components/Loading";
+import { Box } from "./components/Box";
+import { Text } from "./components/Text";
+import { Flex } from "./components/Flex";
+import { Button} from "./components/Button";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  state = { todos: [] };
+
+  async componentDidMount() {
+    let result = await axios.get("https://jsonplaceholder.typicode.com/todos?_start=0&_limit=50");
+    //   await new Promise(x => setTimeout(x, 1000));
+    this.setState({ todos: result.data });
+  }
+
+  render() {
+    return (
+      <>
+        <Box>
+          <Box m="5px auto" width="fit-content" p="1rem" borderBottom="2px dotted grey">
+            <Text fontSize="3rem">TODO LIST</Text>
+          </Box>
+          <Box bg="#d296f5" p="2rem" className="container">
+            {this.state.todos.length > 0 ? (
+              <>
+              <Box p="2rem" bg="#e4f596">
+                <Box>
+                  {this.state.todos.map((todo) => (
+                    <>
+                      <Flex bg="#f7c395" p="2rem" justifyContent="space-between">
+                        <Box key={todo.id}>
+                          <Text fontSize="2rem">{todo.title}</Text>
+                        </Box>
+                        <Box>
+                          <input className="Tick" type="checkbox" checked={todo.completed} />
+                        </Box>
+                      </Flex>
+                    </>
+                  ))}
+                </Box>
+              </Box>
+         </>   ) : (
+              <Loading />
+            )}
+          </Box>
+
+
+        </Box>
+      </>
+    );
+  }
 }
 
 export default App;
