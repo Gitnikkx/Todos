@@ -53,7 +53,7 @@ class App extends Component {
         </Box> */}
 
       {/* <LoginForm/> */}
-      {/* <LoginForm2/> */}
+      <LoginForm2/>
       {/* <FormFormik/> */}
       </>
     );

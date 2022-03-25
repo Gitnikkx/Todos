@@ -34,7 +34,7 @@ export const FormFormik = () => {
         >
           {(values) => (
             <Form>
-              {/* personaldetails form   */}
+              {/* personaldetails form  */}
               <section>
                 {/* name */}
                 <Box bg="#C9CE64" mb="1rem" width="fit-content" p="10px" borderRadius="55px">

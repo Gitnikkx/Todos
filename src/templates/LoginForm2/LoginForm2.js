@@ -1,37 +1,31 @@
-import React, { useState } from "react";
+import React from "react";
+import { useForm } from "react-hook-form";
 
 export const LoginForm2 = () => {
-  const [errorMessages, setErrorMessages] = useState({});
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
+  const onSubmit = (data) => console.log(data);
 
-  const renderErrorMessage = (name) =>
-    name === errorMessages.name && <div className="error">{errorMessages.message}</div>;
-
-    const handleSubmit = (event) => {
-        // Prevent page reload
-        //SUBMIT BUTTON WONT RELOAD
-        event.preventDefault();
-      };
+  console.log(watch("example")); // watch input value by passing the name of it
 
   return (
     <>
-      <div className="form">
-        <form onSubmit={handleSubmit}>
-          <div className="input-container">
-            <label>Username </label>
-            <input type="text" name="username" required />
-            {renderErrorMessage("username")}
-          </div>
-          <div className="input-container">
-            <label>Password </label>
-            <input type="password" name="pass" required />
-            {renderErrorMessage("pass")}
-          </div>
-          <div className="button-container">
-            <input type="submit" />
-          </div>
-        </form>
-      </div>
+      {/* "handleSubmit" will validate your inputs before invoking "onSubmit"  */}
+      <form onSubmit={handleSubmit(onSubmit)}>
+        {/* register your input into the hook by invoking the "register" function */}
+        <input defaultValue="test" {...register("example")} />
+
+        {/* include validation with required or other standard HTML validation rules */}
+        <input {...register("exampleRequired", { required: true })} />
+        {/* errors will return when field validation fails  */}
+        {errors.exampleRequired && <span>This field is required</span>}
+
+        <input type="submit" />
+      </form>
     </>
   );
 };
